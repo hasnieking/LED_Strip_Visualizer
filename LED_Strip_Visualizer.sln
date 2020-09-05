@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30406.217
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LED_Strip_Visualizer", "LED_Strip_Visualizer\LED_Strip_Visualizer.csproj", "{B73685A9-D6B6-4F2E-8A87-9F34A586E58A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B73685A9-D6B6-4F2E-8A87-9F34A586E58A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B73685A9-D6B6-4F2E-8A87-9F34A586E58A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B73685A9-D6B6-4F2E-8A87-9F34A586E58A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B73685A9-D6B6-4F2E-8A87-9F34A586E58A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6C5BC58B-4713-4871-B184-94D6B17DA1F9}
+	EndGlobalSection
+EndGlobal
