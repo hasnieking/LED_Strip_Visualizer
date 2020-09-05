@@ -46,7 +46,6 @@ namespace LED_Strip_Visualizer
                 if (newColour != currentColour)
                 {
                     arduino.Write(newColour + '\n');
-                    Console.WriteLine("pizza");
                 }
                 currentColour = newColour;
             }
