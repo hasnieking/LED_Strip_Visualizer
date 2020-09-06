@@ -12,45 +12,45 @@ namespace LED_Strip_Visualizer
 
         private static int screenwidth = 1920;
         private static int screenheight = 1080;
+        private static string portname;
 
         static void Main(string[] args)
         {
-            //getScreenres();
+            //variables for colours
             string currentColour = "";
             string newColour;
 
-            //hello world
-            Console.WriteLine("Hello World!");
+            //ask user for settings
+            getScreenres();
+            getPortname();
 
-            String[] ports;
-            ports = SerialPort.GetPortNames();
-
-            //write usb port names
-            for (int i = 0; i < ports.Length; i++)
+            try
             {
-                Console.WriteLine(ports[i]);
-            }
 
-            SerialPort arduino = new SerialPort("COM3", 9600, Parity.None, 8, StopBits.One);
-            arduino.Open();
-            Thread.Sleep(200);
+                SerialPort arduino = new SerialPort(portname, 9600, Parity.None, 8, StopBits.One);
+                arduino.Open();
+                Thread.Sleep(200);
 
-            arduino.Write("000255000\n");
-
-            String input;
-            String command;
-            input = Console.ReadLine();
-            while (input.ToLower() != "stop")
-            {
-                newColour = getColour();
-                if (newColour != currentColour)
+                while (true)
                 {
-                    arduino.Write(newColour + '\n');
+                    newColour = getColour();
+                    if (newColour != currentColour)
+                    {
+                        arduino.Write(newColour + '\n');
+                    }
+                    currentColour = newColour;
                 }
-                currentColour = newColour;
+
+                //unreachable, but this should be the way to close
+                arduino.Close();
+
             }
 
-            arduino.Close();
+            //catch exception from arduino communication
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         static string getColour()
@@ -59,8 +59,7 @@ namespace LED_Strip_Visualizer
             string colour = "";
             try
             {
-                Bitmap captureBitmap = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
-
+                Bitmap captureBitmap = new Bitmap(1, 1, PixelFormat.Format32bppArgb); //used bitmap
                 using (Graphics captureGraphic = Graphics.FromImage(captureBitmap))
                 {
                     
@@ -73,11 +72,9 @@ namespace LED_Strip_Visualizer
 
                     Console.WriteLine(colour);
                 }
-                
-
-
             }
 
+            //catch error from getting colour
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
@@ -85,6 +82,32 @@ namespace LED_Strip_Visualizer
 
             return colour; //return colour in string format (255000255)
         }
+
+        //ask user for resolution screen
+        private static void getScreenres()
+        {
+            Console.WriteLine("Screen width: ");
+            screenwidth = int.Parse(Console.ReadLine());
+            Console.WriteLine("Screen height: ");
+            screenheight = int.Parse(Console.ReadLine());
+        }
+
+        private static void getPortname()
+        {
+            String[] ports;
+            ports = SerialPort.GetPortNames();
+
+            Console.WriteLine("Which of the following ports do you want to use?");
+
+            //write usb port names
+            for (int i = 0; i < ports.Length; i++)
+            {
+                Console.WriteLine(ports[i]);
+            }
+
+            portname = Console.ReadLine();
+        }
+
 
     }
 
