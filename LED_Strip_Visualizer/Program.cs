@@ -59,15 +59,16 @@ namespace LED_Strip_Visualizer
             string colour = "";
             try
             {
-                Bitmap captureBitmap = new Bitmap(screenwidth, screenheight, PixelFormat.Format32bppArgb);
+                Bitmap captureBitmap = new Bitmap(1, 1, PixelFormat.Format32bppArgb);
 
-                using (var captureGraphic = Graphics.FromImage(captureBitmap))
+                using (Graphics captureGraphic = Graphics.FromImage(captureBitmap))
                 {
+                    
                     //make screen capture
-                    captureGraphic.CopyFromScreen(0, 0, 0, 0, captureBitmap.Size);
-                    //captureBitmap.Save("capture.jpg", ImageFormat.Jpeg);
+                    captureGraphic.CopyFromScreen(960, 540, 0, 0, captureBitmap.Size);
+                    
                     //get colour
-                    Color pixelColor = captureBitmap.GetPixel(screenwidth / 2, screenheight / 2);
+                    Color pixelColor = captureBitmap.GetPixel(0, 0);
                     colour = pixelColor.R.ToString().PadLeft(3, '0') + pixelColor.G.ToString().PadLeft(3, '0') + pixelColor.B.ToString().PadLeft(3, '0');
 
                     Console.WriteLine(colour);
