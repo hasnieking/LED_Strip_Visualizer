@@ -3,7 +3,7 @@ using System.IO.Ports;
 using System.Threading;
 using System.Drawing.Imaging;
 using System.Drawing;
-
+using System.Diagnostics;
 
 namespace LED_Strip_Visualizer
 {
@@ -12,6 +12,9 @@ namespace LED_Strip_Visualizer
 
         private static int screenwidth = 1920;
         private static int screenheight = 1080;
+
+        const int squaresize = 4;
+
         private static string portname;
 
         static void Main(string[] args)
@@ -55,23 +58,53 @@ namespace LED_Strip_Visualizer
 
         static string getColour()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             //initialize string
             string colour = "";
             try
             {
-                Bitmap captureBitmap = new Bitmap(1, 1, PixelFormat.Format32bppArgb); //used bitmap
+                Bitmap captureBitmap = new Bitmap(squaresize, squaresize, PixelFormat.Format32bppArgb); //used bitmap
                 using (Graphics captureGraphic = Graphics.FromImage(captureBitmap))
                 {
+
                     
+                    captureGraphic.CopyFromScreen(959, 539, 0, 0, captureBitmap.Size);
+                    int r = 0, g = 0, b = 0;
+                    Color pixelColor;
+                    for (int i = 0; i < squaresize; i++)
+                    {
+                        for (int j = 0; j < squaresize; j++)
+                        {
+                            pixelColor = captureBitmap.GetPixel(i, j);
+                            r += pixelColor.R;
+                            g += pixelColor.G;
+                            b += pixelColor.B;
+                        }
+                    }
+
+                    r /= squaresize * squaresize;
+                    g /= squaresize * squaresize;
+                    b /= squaresize * squaresize;
+
+                    colour = r.ToString().PadLeft(3, '0') + g.ToString().PadLeft(3, '0') + b.ToString().PadLeft(3, '0');
+
+                    /*
                     //make screen capture
                     captureGraphic.CopyFromScreen(960, 540, 0, 0, captureBitmap.Size);
                     
                     //get colour
                     Color pixelColor = captureBitmap.GetPixel(0, 0);
                     colour = pixelColor.R.ToString().PadLeft(3, '0') + pixelColor.G.ToString().PadLeft(3, '0') + pixelColor.B.ToString().PadLeft(3, '0');
-
+                    */
                     Console.WriteLine(colour);
+                    
                 }
+
+
+                stopwatch.Stop();
+                Console.WriteLine("{0} ms", stopwatch.ElapsedMilliseconds);
             }
 
             //catch error from getting colour
